@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="its.user.dao.ReportDao">
+	<insert id="save" 
+      parameterType="its.user.entity.Report">
+      INSERT INTO its_report
+      (id,type,username,reportId,reason,state,opinion,modifyUser,modifyTime,link)
+      VALUES
+      (NULL,#{type},#{username},#{reportId},#{reason},#{state},#{opinion},#{modifyUser},NOW(),#{link})
+    </insert>
+</mapper>

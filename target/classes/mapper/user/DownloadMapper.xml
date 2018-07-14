@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="its.user.dao.DownloadDao">
+	<insert id="save">
+	  INSERT INTO resource_ser_download
+      (id,resourceId,createdUser,createdTime)
+      VALUES
+      (NULL,#{resourceId},#{createdUser},NOW())
+	</insert>
+	 <select id="findByResourceIdAndUser"
+     resultType="its.user.entity.Download">
+     SELECT *
+     FROM resource_ser_download
+     WHERE resourceId=#{id} AND createdUser=#{user}
+    </select>
+</mapper>

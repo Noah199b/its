@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="its.user.dao.ResourceDao">
+	<insert id="save"  useGeneratedKeys="true"  keyProperty="id"
+      parameterType="its.user.entity.Resource">
+	  INSERT INTO its_user_resource
+      (id,title,description,type,path,size,downloadIntegral,downloadCount,score,createdUser,createdTime)
+      VALUES
+      (NULL,#{title},#{description},#{type},#{path},#{size},#{downloadIntegral},#{downloadCount},#{score},#{createdUser},NOW())
+	</insert>
+	<select id="findAllCount"
+     resultType="int">
+     SELECT count(*)
+     FROM its_user_resource
+    </select>
+      <select id="findByTypeCount"
+     resultType="int">
+     SELECT count(*)
+     FROM its_user_resource
+     WHERE type=#{type}
+    </select>
+    <select id="findAll"
+     resultType="its.user.entity.Resource">
+     SELECT *
+     FROM its_user_resource
+     ORDER BY createdTime DESC
+     LIMIT #{start},#{size}
+    </select>
+    <select id="findByType"
+     resultType="its.user.entity.Resource">
+     SELECT *
+     FROM its_user_resource
+     WHERE type=#{type}
+     ORDER BY createdTime DESC
+     LIMIT #{start},#{size}
+    </select>
+    <select id="findById"
+     resultType="its.user.entity.Resource">
+     SELECT *
+     FROM its_user_resource
+     WHERE id=#{id}
+    </select>
+    <update id="updateDownloadCount">
+     UPDATE its_user_resource
+     SET downloadCount=downloadCount+1
+     WHERE id=#{id}
+    </update>
+    <select id="searchCount" resultType="int">
+		SELECT count(*) FROM its_user_resource WHERE title LIKE CONCAT('%',#{search},'%')
+	</select>
+	<select id="search" resultType="its.user.entity.Resource">
+		SELECT * FROM its_user_resource
+		WHERE title LIKE CONCAT('%',#{search},'%')
+		LIMIT #{start},#{size}
+	</select>
+	<update id="updateScore">
+		UPDATE its_user_resource
+		SET score=(select AVG(score) from its_resource_reply where resourceId=#{resourceId})
+		WHERE id=#{resourceId}
+	</update>
+	<select id="findByUserCount"
+     resultType="int">
+     SELECT count(*)
+     FROM its_user_resource
+     WHERE createdUser=#{user}
+    </select>
+    <select id="findByUser"
+     resultType="its.user.entity.Resource">
+     SELECT *
+     FROM its_user_resource
+     WHERE createdUser=#{user}
+     ORDER BY createdTime DESC
+     LIMIT #{start},#{size}
+    </select>
+    <delete id="delete">
+    DELETE FROM its_user_resource
+    WHERE id=#{id}
+    </delete>
+</mapper>

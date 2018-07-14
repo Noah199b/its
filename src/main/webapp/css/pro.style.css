@@ -1,0 +1,4 @@
+.box{width:416px; height:50px; margin: auto; }
+.tbox{width:416; height:49px; background:url(../images/bak.png) no-repeat; margin-top:20px;margin-left: 6px; }
+.tbox div{width:0px; height:49px; background:url(../images/pro.png) no-repeat; text-align:center;
+font-family:Tahoma; font-size:18px; line-height:48px;}

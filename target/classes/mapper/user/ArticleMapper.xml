@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="its.user.dao.ArticleDao">
+	<insert id="save"  useGeneratedKeys="true"  keyProperty="id"
+      parameterType="its.user.entity.Article">
+	  INSERT INTO its_user_article
+      (id,title,content,contentText,totalVisits,userId,createdTime,modifiedTime,createdUser,modifiedUser)
+      VALUES
+      (NULL,#{title},#{content},#{contentText},0,#{userId},NOW(),NOW(),#{createdUser},#{modifiedUser})
+	</insert>
+	
+	<select id="findHotWeekCount" resultType="int">
+		SELECT count(*) FROM its_user_article
+		<!-- WHERE createdTime BETWEEN current_date()-7 AND sysdate() -->
+	</select>	
+	<select id="findHotWeek" resultType="its.user.entity.Article">
+		SELECT id,title,contentText,createdTime,createdUser FROM its_user_article
+		<!-- WHERE createdTime BETWEEN current_date()-7 AND sysdate() -->
+		ORDER BY totalVisits desc
+		LIMIT #{start},#{size}
+	</select>
+	
+	<select id="findNewestCount" resultType="int">
+		SELECT count(*) FROM its_user_article
+	</select>	
+	<select id="findNewest" resultType="its.user.entity.Article">
+		SELECT id,title,contentText,createdTime,createdUser FROM its_user_article
+		ORDER BY createdTime desc
+		LIMIT #{start},#{size}
+	</select>
+	
+	<select id="findById" resultType="its.user.entity.Article">
+		SELECT * FROM its_user_article
+		WHERE id=#{id}
+	</select>
+	<update id="updateTotalVisits">
+		UPDATE its_user_article 
+		SET  totalVisits =totalVisits+1
+		WHERE id=#{id};
+	</update>
+	
+	<select id="findSearchCount" resultType="int">
+		SELECT count(*) FROM its_user_article WHERE title LIKE CONCAT('%',#{key},'%')
+	</select>	
+	<select id="findSearch" resultType="its.user.entity.Article">
+		SELECT id,title,contentText,createdTime,createdUser FROM its_user_article
+		WHERE title LIKE CONCAT('%',#{key},'%')
+		LIMIT #{start},#{size}
+	</select>
+	
+	<select id="findByUserId" resultType="its.user.entity.Article">
+		SELECT id,title,contentText,createdTime,createdUser 
+		FROM its_user_article		
+		WHERE userId=#{userId}
+		ORDER BY createdTime desc
+		LIMIT #{start},#{size}
+	</select>
+	<select id="findByUserIdCount" resultType="int">
+		SELECT count(*) FROM its_user_article WHERE userId=#{userId}
+	</select>
+	<select id="findNewByUserId" resultType="its.user.entity.Article">
+		SELECT * 
+		FROM its_user_article		
+		WHERE userId=#{userId}
+		ORDER BY createdTime desc
+		LIMIT 0,1
+	</select>
+	<delete id="delete">
+		DELETE 
+		FROM its_user_article
+		WHERE id=#{id}
+	</delete>
+	<update id="update" parameterType="its.user.entity.Article">
+		UPDATE its_user_article 
+		SET  title=#{title},content=#{content},contentText=#{contentText},
+		modifiedUser=#{modifiedUser},modifiedTime=NOW()
+		WHERE id=#{id}
+	</update>
+</mapper>

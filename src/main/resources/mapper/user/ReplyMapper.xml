@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="its.user.dao.ReplyDao">
+	<insert id="save" 
+      parameterType="its.user.entity.Reply">
+      INSERT INTO its_resource_reply
+      (id,resourceId,content,score,createdUser,createdTime)
+      VALUES
+      (NULL,#{resourceId},#{content},#{score},#{createdUser},NOW())
+    </insert>  
+    <select id="findByResourceId"
+     resultType="its.user.entity.Reply">
+     SELECT *
+     FROM its_resource_reply
+     WHERE resourceId=#{resourceId}
+     ORDER BY createdTime DESC
+    </select>
+     <select id="findByResourceIdAndUser"
+     resultType="int">
+     SELECT count(*)
+     FROM its_resource_reply
+     WHERE resourceId=#{resourceId} AND createdUser=#{user}
+    </select>
+</mapper>

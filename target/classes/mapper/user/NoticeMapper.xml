@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="its.user.dao.NoticeDao">
+
+	 <select id="findNotice"
+     resultType="its.user.entity.Notice">
+     SELECT *
+     FROM its_notice
+     WHERE state=1
+     ORDER BY createdTime DESC 
+     LIMIT 0,#{size}
+    </select>
+    
+</mapper>

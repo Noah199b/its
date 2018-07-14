@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="its.user.dao.MessageDao">
+	<insert id="insertMsg" 
+      parameterType="its.user.entity.Message">
+      INSERT INTO its_user_message
+      (id,type,title,content,user,flag,createdUser,createdTime,articleId,resourceId)
+      VALUES
+      (NULL,#{type},#{title},#{content},#{user},#{flag},#{createdUser},NOW(),#{articleId},#{resourceId})
+    </insert>  
+    <select id="getMsgByUser"
+     resultType="its.user.entity.Message">
+     SELECT *
+     FROM its_user_message
+     WHERE user=#{user}
+     ORDER BY createdTime desc
+     LIMIT #{start},#{size}
+    </select>
+    <select id="getMsgByUserCount"
+     resultType="int">
+     SELECT count(*)
+     FROM its_user_message
+     WHERE user=#{user}
+    </select>
+    <select id="getMsgByFlag"
+     resultType="its.user.entity.Message">
+     SELECT *
+     FROM its_user_message
+     WHERE user=#{user} AND flag=#{flag}
+     ORDER BY createdTime desc
+     LIMIT #{start},#{size}
+    </select>
+    <select id="getMsgByFlagCount"
+     resultType="int">
+     SELECT count(*)
+     FROM its_user_message
+     WHERE user=#{user} AND flag=#{flag}
+    </select>    
+	<select id="getMsgById"
+     resultType="its.user.entity.Message">
+     SELECT *
+     FROM its_user_message
+     WHERE id=#{id}
+    </select>
+    <update id="updateFlag">
+     UPDATE its_user_message
+     SET flag=#{flag}
+     WHERE id=#{id}
+    </update>
+</mapper>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="its.user.dao.CommentDao">
+	<insert id="save" parameterType="its.user.entity.Comment">
+		INSERT INTO its_user_comment
+		(id,content,parentId,articleId,userId,createdUser,createdTime)
+		VALUES
+		(NULL,#{content},#{parentId},#{articleId},#{userId},#{createdUser},NOW())
+	</insert>	
+	<select id="findMainById" resultType="its.user.entity.Comment">
+		SELECT c.*,u.avatar as spare1 FROM its_user_comment c,its_users u
+		WHERE c.articleId=#{articleId} AND c.parentId=0 AND c.userId=u.id
+		ORDER BY c.createdTime
+	</select>
+	<select id="findMainCount" resultType="int">
+		SELECT count(*) FROM its_user_comment
+		WHERE articleId=#{articleId} AND parentId=0
+	</select>
+	<select id="findSubById" resultType="its.user.entity.Comment">
+		SELECT c.*,u.avatar as spare1 FROM its_user_comment c,its_users u
+		WHERE c.parentId=#{parentId} AND c.userId=u.id
+		ORDER BY c.createdTime
+	</select>
+	<select id="findSubCount" resultType="int">
+		SELECT count(*) FROM its_user_comment
+		WHERE parentId=#{parentId}
+	</select>
+	<select id="findActiveUser" resultType="java.util.HashMap">
+		SELECT id, username,avatar,valid,
+		(SELECT count(*) FROM its_user_article WHERE userId=u.id) AS aTotal,
+		(SELECT count(*) FROM its_user_comment WHERE userId=u.id) AS cTotal
+		FROM its_users u
+		ORDER BY aTotal+cTotal DESC
+		LIMIT 0,5
+	</select>
+	<select id="findById" resultType="its.user.entity.Comment">
+		SELECT * FROM its_user_comment
+		WHERE id=#{id}
+	</select>
+	<select id="findNewByUserId" resultType="its.user.entity.Comment">
+		SELECT * 
+		FROM its_user_comment		
+		WHERE userId=#{userId}
+		ORDER BY createdTime desc
+		LIMIT 0,1
+	</select>
+</mapper>

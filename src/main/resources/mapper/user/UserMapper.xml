@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="its.user.dao.UserDao">
+	<insert id="insertUser" 
+      parameterType="its.user.entity.User">
+      INSERT INTO its_users
+      (id,username,password,salt,name,avatar,autograph,email,valid,createdTime,modifiedTime,createdUser,modifiedUser,integral)
+      VALUES
+      (NULL,#{username},#{password},#{salt},#{name},#{avatar},#{autograph},#{email},#{valid},NOW(),NOW(),#{createdUser},#{modifiedUser},#{integral})
+    </insert>
+    
+    <select id="findByUsername"
+     resultType="its.user.entity.User">
+     SELECT *
+     FROM its_users
+     WHERE username=#{username};
+    </select>
+    <select id="findById"
+     resultType="its.user.entity.User">
+     SELECT *
+     FROM its_users
+     WHERE id=#{id};
+    </select>
+    <update id="updateUserInfo">
+     UPDATE its_users
+     SET name=#{name},autograph=#{autograph},modifiedUser=#{user},modifiedTime=NOW()
+     WHERE id=#{id}
+    </update>    
+    <update id="updateAvatar">
+     UPDATE its_users
+     SET avatar=#{avatar},modifiedUser=#{user},modifiedTime=NOW()
+     WHERE id=#{id}
+    </update>
+    <update id="updateIntegral">
+     UPDATE its_users
+     SET integral=integral+#{integral}
+     WHERE username=#{user}
+    </update>
+     <update id="updatePassword">
+     UPDATE its_users
+     SET password=#{pwd},salt=#{salt}
+     WHERE username=#{user}
+    </update>
+</mapper>

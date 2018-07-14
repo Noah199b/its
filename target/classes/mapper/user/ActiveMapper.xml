@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="its.user.dao.ActiveDao">
+	<select id="findAllCount"
+     resultType="int">
+     SELECT count(*)
+     FROM its_projects
+    </select>
+    <select id="findAll"
+     resultType="its.user.entity.Active">
+     SELECT *
+     FROM its_projects
+     <if test="valid!=null">
+     	WHERE valid=#{valid}
+     </if>
+     ORDER BY createdTime DESC
+     LIMIT #{start},#{size}
+    </select>
+    <select id="findById"
+     resultType="its.user.entity.Active">
+     SELECT *
+     FROM its_projects
+     WHERE id=#{id}
+    </select>
+</mapper>
