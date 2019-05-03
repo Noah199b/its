@@ -23,12 +23,12 @@
     <servlet-name>dispatcherServlet</servlet-name>
     <url-pattern>*.do</url-pattern>
   </servlet-mapping>
-  <filter>
+ <filter>
     <filter-name>loginFilter</filter-name>
     <filter-class>its.user.filter.LoginFilter</filter-class>
   </filter>
   <filter-mapping>
     <filter-name>loginFilter</filter-name>
-    <url-pattern>/*</url-pattern>
+    <url-pattern>*.do</url-pattern>
   </filter-mapping>
 </web-app>

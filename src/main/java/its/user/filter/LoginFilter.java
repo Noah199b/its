@@ -18,6 +18,7 @@ public class LoginFilter extends OncePerRequestFilter {
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
+		System.err.println(request.getRequestURL());
         // 如果session中不存在登录者实体，则弹出框提示重新登录  
         // 设置request和response的字符集，防止乱码 
 		request.setCharacterEncoding("UTF-8");  
